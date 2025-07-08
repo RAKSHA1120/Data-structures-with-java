@@ -1,0 +1,159 @@
+import java.util.Scanner;
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+public class linkedlist {
+    static Node head = null;
+    static Scanner sc = new Scanner(System.in);
+    static void createList() {
+        for (int i = 0; i < 5; i++) {
+            System.out.print("Enter data for node " + (i + 1) + ": ");
+            int data = sc.nextInt();
+            insertAtEnd(data);
+        }
+    }
+    static void displayList() {
+        Node temp = head;
+        if (temp == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+        System.out.print("Linked List: ");
+        while (temp != null) {
+            System.out.print(temp.data + " -> ");
+            temp = temp.next;
+        }
+        System.out.println("NULL");
+    }
+    static void insertAtBeginning(int data) {
+        Node newNode = new Node(data);
+        newNode.next = head;
+        head = newNode;
+    }
+    static void insertAtEnd(int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+            return;
+        }
+        Node temp = head;
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+        temp.next = newNode;
+    }
+    static void insertAtPosition(int data, int pos) {
+        if (pos == 1) {
+            insertAtBeginning(data);
+            return;
+        }
+        Node newNode = new Node(data);
+        Node temp = head;
+        for (int i = 1; i < pos - 1 && temp != null; i++) {
+            temp = temp.next;
+        }
+        if (temp == null) {
+            System.out.println("Invalid position.");
+            return;
+        }
+        newNode.next = temp.next;
+        temp.next = newNode;
+    }
+    static void deleteFromBeginning() {
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+        head = head.next;
+    }
+    static void deleteFromEnd() {
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+        if (head.next == null) {
+            head = null;
+            return;
+        }
+        Node temp = head;
+        while (temp.next.next != null) {
+            temp = temp.next;
+        }
+        temp.next = null;
+    }
+    static void deleteAtPosition(int pos) {
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+        if (pos == 1) {
+            head = head.next;
+            return;
+        }
+
+        Node temp = head;
+        for (int i = 1; i < pos - 1 && temp != null; i++) {
+            temp = temp.next;
+        }
+
+        if (temp == null || temp.next == null) {
+            System.out.println("Invalid position.");
+            return;
+        }
+
+        temp.next = temp.next.next;
+    }
+    static void searchElement(int key) {
+        Node temp = head;
+        int pos = 1;
+        while (temp != null) {
+            if (temp.data == key) {
+                System.out.println("Element " + key + " found at position " + pos);
+                return;
+            }
+            temp = temp.next;
+            pos++;
+        }
+        System.out.println("Element " + key + " not found.");
+    }
+
+    public static void main(String[] args) {
+        createList();
+        displayList();
+
+        System.out.print("\nInsert at beginning: ");
+        insertAtBeginning(sc.nextInt());
+        displayList();
+
+        System.out.print("\nInsert at end: ");
+        insertAtEnd(sc.nextInt());
+        displayList();
+
+        System.out.print("\nInsert at position (data position): ");
+        int data = sc.nextInt();
+        int pos = sc.nextInt();
+        insertAtPosition(data, pos);
+        displayList();
+
+        System.out.println("\nDelete from beginning:");
+        deleteFromBeginning();
+        displayList();
+
+        System.out.println("\nDelete from end:");
+        deleteFromEnd();
+        displayList();
+
+        System.out.print("\nDelete at position: ");
+        deleteAtPosition(sc.nextInt());
+        displayList();
+
+        System.out.print("\nSearch element: ");
+        searchElement(sc.nextInt());
+    }
+}
